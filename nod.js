@@ -549,14 +549,16 @@ nod.makeListener = function (element, mediator, triggerEvents, configuration) {
         });
     }
 
-    element.addEventListener('input', changed, false);
-    element.addEventListener('change', changed, false);
-    element.addEventListener('blur', changed, false);
+    if (!configuration.overrideTriggerEvents) {
+        element.addEventListener('input', changed, false);
+        element.addEventListener('change', changed, false);
+        element.addEventListener('blur', changed, false);
 
-    if (configuration.jQuery) {
-        $element = configuration.jQuery(element);
+        if (configuration.jQuery) {
+            $element = configuration.jQuery(element);
 
-        $element.on('propertychange change click keyup input paste', changed);
+            $element.on('propertychange change click keyup input paste', changed);
+        }
     }
 
     if (triggerEvents) {
@@ -570,12 +572,14 @@ nod.makeListener = function (element, mediator, triggerEvents, configuration) {
     }
 
     function dispose () {
-        element.removeEventListener('input', changed, false);
-        element.removeEventListener('change', changed, false);
-        element.removeEventListener('blur', changed, false);
+        if (!configuration.overrideTriggerEvents) {
+            element.removeEventListener('input', changed, false);
+            element.removeEventListener('change', changed, false);
+            element.removeEventListener('blur', changed, false);
 
-        if ($element) {
-            $element.off();
+            if ($element) {
+                $element.off();
+            }
         }
 
         if (triggerEvents) {

@@ -192,6 +192,19 @@ myNod.configure({
 After that is configured, elements being added will listen for the jQuery
 change event.
 
+#### overrideTriggerEvents
+
+This will make sure that only the events supplied by `triggerEvents` are applied and none else.
+
+```javascript
+myNod.add({
+    selector: '.foo',
+    validate: 'presence',
+    errorMessage: '...',
+    triggerEvents: 'keyup',
+    overrideTriggerEvents: true // only the keyup event will trigger the events and override all others
+});
+```
 
 #### defaultStatus
 
@@ -690,4 +703,3 @@ myNod.add({
     errorMessage: 'Wrong! Don\'t you know math?'
 });
 ```
-
